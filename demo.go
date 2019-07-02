@@ -42,6 +42,31 @@ func (rect *Rect) Area() float64 {
 	return rect.height * rect.width
 }
 
+// 构造函数
+
+func NewRect(x, y, width, height float64) *Rect {
+	return &Rect{x, y, width, height} // 实例化类型
+}
+
+// 匿名组合和非匿名组合
+type Base struct {
+	Name string
+}
+
+func (base *Base) Foo() {}
+func (base *Base) Bar() {}
+
+type Foo struct {
+	 Base
+
+	// *Base
+}
+
+func (foo *Foo) Bar() {
+	foo.Base.Bar()
+
+}
+
 func main() {
 
 	/*var v2 string
@@ -246,10 +271,14 @@ func main() {
 	b[1]++
 	fmt.Println(a, *b)*/
 
-   //var rect =Rect{x:100,y:200,height:3,width:4}
-   //var rect =new(Rect)
-	var rect =&Rect{x:100,y:200,height:3,width:4}
-   fmt.Println(rect.Area())
+	// 初始化类型
+	//var rect =Rect{x:100,y:200,height:3,width:4}
+	//var rect =new(Rect)
+	/*var rect = &Rect{x: 100, y: 200, height: 3, width: 4}
+	fmt.Println(rect.Area())*/
+
+	//匿名组合（继承）
+
 }
 
 //因此需要先牢记这样的规则：小写字母开头的函数只在本包内可见，大写字母开头的函数才 能被其他包使用。 这个规则也适用于类型和变量的可见性。
