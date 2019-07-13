@@ -241,6 +241,7 @@ var v5 interface{}= &struct {
 
 
 func main() {
+	str()
 	/*	var c Interface1 = &Person{}
 
 		if p,ok:=c.(*Person) ;ok{
@@ -504,4 +505,15 @@ func f() {
 	fmt.Println("a")
 	panic("异常信息")
 	fmt.Println("b") //这里开始下面代码不会再执行
+}
+
+//Go语言中的单引号、双引号、反引号
+//双引号用来创建可解析的字符串字面量(支持转义，但不能用来引用多行)；
+//反引号用来创建原生的字符串字面量，这些字符串可能由多行组成(不支持任何转义序列)，原生的字符串字面量多用于书写多行消息、HTML以及正则表达式。
+func str()  {
+	fmt.Println(`
+                How are you?
+                Fine, thank you. And you?
+                I'm fine too.
+        `)
 }
