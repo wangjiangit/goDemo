@@ -186,7 +186,7 @@ func (person *Person) Music() {
 */
 
 // 类型查询
-type Stringer interface {
+/*type Stringer interface {
 	String() string
 }
 
@@ -205,7 +205,40 @@ func PrintLn(arg ...interface{}) {
 
 		}
 	}
+}*/
+
+// 接口组合
+
+/*
+type IWriter interface {
+	writer() int
 }
+
+type IReader interface {
+	reader() int
+}
+type IWriteReader interface {
+	IWriter
+	IReader
+}
+*/
+
+
+//Any 类型
+
+
+/*var v1 interface{}=1
+var v2 interface{}="abc"
+var v3 interface{}=&v2
+var v4 interface{}= struct {
+	X int
+}{X:4}
+
+var v5 interface{}= &struct {
+	Y string
+}{"hello"}
+*/
+
 
 func main() {
 	/*	var c Interface1 = &Person{}
