@@ -44,9 +44,10 @@ Linux平台上，很多工具链正是采用这种模式在工作。比如某个
 
 */
 func goAdd(x, y int, ch chan int) {
-	ch <- 1
+	ch <- 8
 	fmt.Println("hello world1")
 }
+
 /*
 var counter int = 0
 
@@ -63,9 +64,9 @@ func Count( lock *sync.Mutex)  {
 	fmt.Println("Counting")
 }*/
 func main() {
-		var ch chan int
-		ch=make(chan int,2)
-		go goAdd(1, 2, ch)
+	var ch chan int
+	ch = make(chan int, 1)
+	go goAdd(1, 2, ch)
 	//	<-ch
 
 	/*lock:=&sync.Mutex{}
@@ -85,22 +86,24 @@ func main() {
 	}
 	*/
 
-/*	chs := make([]chan int, 10)
-	for i := 0; i < 10; i++ {
-		chs[i] = make(chan int)
-		go Count(chs[i])
-	}
-	for _, ch := range chs {
-		<-ch
-	}*/
+	/*	chs := make([]chan int, 10)
+		for i := 0; i < 10; i++ {
+			chs[i] = make(chan int)
+			go Count(chs[i])
+		}
+		for _, ch := range chs {
+			<-ch
+		}*/
 
 	select {
-	case hh:=<-ch:
-		fmt.Println("listen chs[1]",hh)
+	case hh := <-ch:
+		fmt.Println("listen chs[1]", hh)
+	/*case ch <- 2:
+		fmt.Println("listen chas[2]")*/
 	/*case <-chs[2]:
-		fmt.Println("listen chs[2")*/
-	default:
-		fmt.Println("no io async")
+	fmt.Println("listen chs[2")*/
+	/*default:
+		fmt.Println("no io async")*/
 	}
 
 }
