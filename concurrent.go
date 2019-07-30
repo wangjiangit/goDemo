@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 /**
 1.并发包含以下几种主流的实现模型。
@@ -94,6 +96,9 @@ func main() {
 		for _, ch := range chs {
 			<-ch
 		}*/
+	 /*str := []byte{'1','2','3'}
+	 // str  := []byte("123")
+	fmt.Printf("%x", md5.Sum(str))*/
 
 	select {
 	case hh := <-ch:
