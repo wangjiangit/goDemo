@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 /**
 1.并发包含以下几种主流的实现模型。
  多进程。多进程是在操作系统层面进行并发的基本模式。同时也是开销最大的模式。在
@@ -43,12 +39,21 @@ Linux平台上，很多工具链正是采用这种模式在工作。比如某个
 实现高并发的Socket服务器程序。Go语言直接在语言级别支持select关键字，用于处理异步IO
 问题。
 
+8.之前我们示范创建的都是不带缓冲的channel，这种做法对于传递单个数据的场景可以接受， 但对于需要持续传输大量数据的场景就有些不合适了。
+接下来我们介绍如何给channel带上缓冲， 从而达到消息队列的效果
+
+9.以上示例创建的都是不带缓冲的channel,这种做法对于传递单个数据的场景可以接受，但对于需要持续传输大量数据的场景就有些不合适了，
+要创建一个带缓冲的channel，其实也非常容易：
+c := make(chan int, 1024) 在调用make()时将缓冲区大小作为第二个参数传入即可，比如上面这个例子就创建了一个大小 为1024的int类型channel，
+即使没有读取方，写入方也可以一直往channel里写入，在缓冲区被 填完之前都不会阻塞。
+从带缓冲的channel中读取数据可以使用与常规非缓冲channel完全一致的方法，但我们也可 以使用range关键来实现更为简便的循环读取：
+for i := range c {     fmt.Println("Received:", i) }
 
 */
-func goAdd(x, y int, ch chan int) {
+/*func goAdd(x, y int, ch chan int) {
 	ch <- 8
 	fmt.Println("hello world1")
-}
+}*/
 
 /*
 var counter int = 0
@@ -65,10 +70,11 @@ func Count( lock *sync.Mutex)  {
 	ch <- 1
 	fmt.Println("Counting")
 }*/
+
 func main() {
-	var ch chan int
-	ch = make(chan int, 1)
-	go goAdd(1, 2, ch)
+	/*	var ch chan int
+		ch = make(chan int, 1)
+		go goAdd(1, 2, ch)*/
 	//	<-ch
 
 	/*lock:=&sync.Mutex{}
@@ -96,19 +102,67 @@ func main() {
 		for _, ch := range chs {
 			<-ch
 		}*/
-	 /*str := []byte{'1','2','3'}
+	/*str := []byte{'1','2','3'}
 	 // str  := []byte("123")
 	fmt.Printf("%x", md5.Sum(str))*/
 
-	select {
+	/*select {
 	case hh := <-ch:
 		fmt.Println("listen chs[1]", hh)
-	/*case ch <- 2:
+	case ch <- 2:
 		fmt.Println("listen chas[2]")*/
 	/*case <-chs[2]:
 	fmt.Println("listen chs[2")*/
 	/*default:
-		fmt.Println("no io async")*/
-	}
+		fmt.Println("no io async")
+	}*/
 
+	/*var ch chan int
+
+	ch = make(chan int, 1)
+
+	for i := 0; i < 10; i++ {
+		select {
+		case ch <- 1:
+			fmt.Println("ch<-1")
+		case ch <- 0:
+			fmt.Println("ch<-0")
+		}
+		v := <-ch
+		fmt.Println("receive value is", v)
+
+	}*/
+
+	// channel 缓冲机制
+	/*
+		ch := make(chan int, 10)
+
+		go func() {
+			for i := 0; i < 10; i++ {
+				ch <- 1
+			}
+			close(ch)
+		}()
+
+		for i := range ch {
+
+			fmt.Println("Received:", i)
+		}*/
+
+
+	/*
+	ch := make(chan int, 10)
+
+	go func() {
+		for i := 0; i < 10; i++ {
+			ch <- 1
+		}
+		close(ch)
+	}()
+	for i := 0; i < 11; i++ {
+		n := <-ch
+		fmt.Println("Received:", n)
+	}*/
+
+	
 }
