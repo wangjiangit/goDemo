@@ -149,20 +149,47 @@ func main() {
 			fmt.Println("Received:", i)
 		}*/
 
-
 	/*
-	ch := make(chan int, 10)
+	     //这段代码超时导致的死锁问题
+	   	ch := make(chan int, 10)
+
+	   	go func() {
+	   		for i := 0; i < 10; i++ {
+	   			ch <- 1
+	   		}
+	   		//close(ch)
+	   	}()
+	   	for i := 0; i < 11; i++ {
+	   		n := <-ch
+	   		fmt.Println("Received:", n)
+	   	}
+	*/
+
+	// 处理超时机制
+	/*ch := make(chan int, 10)
 
 	go func() {
 		for i := 0; i < 10; i++ {
 			ch <- 1
 		}
-		close(ch)
+		//close(ch)
 	}()
+
+	timeoutChannel := make(chan bool, 1)
+	go func() {
+		timeoutChannel <- true
+
+	}()
+
 	for i := 0; i < 11; i++ {
-		n := <-ch
-		fmt.Println("Received:", n)
+
+		select {
+		case n := <-ch:
+			fmt.Println("Received:", n)
+		case <-timeoutChannel:
+			fmt.Println("超时处理")
+		}
+
 	}*/
 
-	
 }
