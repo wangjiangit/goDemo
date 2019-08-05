@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 /**
 1.并发包含以下几种主流的实现模型。
  多进程。多进程是在操作系统层面进行并发的基本模式。同时也是开销最大的模式。在
@@ -214,7 +212,7 @@ func main() {
 	*/
 
 	// 单向channel
-
+/*
 	var ch1 chan int       // 正常的channel，不是单向的
 	var ch2 chan<- float64 // ch2是单向的，只能用于写入float64数据
 	var ch3 <-chan int     // ch3是单向的，只能用于读取int数据
@@ -223,7 +221,7 @@ func main() {
 
 	var ch4 = make(chan int)
 	ch5 := chan<- int(ch4) // ch5是一个单向的写入的channel
-	ch6 := <-chan int(ch4) // ch6是一个单向的读取的channel
+	ch6 := <-chan int(ch4) // ch6是一个单向的读取的channel*/
 
 	// 限制函数只能使用单向channel
 	/**
@@ -241,6 +239,10 @@ func main() {
 		 	fmt.Println("closed ch")
 		 }
 	*/
+
+
+
+
 
 
 }

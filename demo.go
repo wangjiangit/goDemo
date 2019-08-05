@@ -223,9 +223,7 @@ type IWriteReader interface {
 }
 */
 
-
 //Any 类型
-
 
 /*var v1 interface{}=1
 var v2 interface{}="abc"
@@ -238,7 +236,6 @@ var v5 interface{}= &struct {
 	Y string
 }{"hello"}
 */
-
 
 func main() {
 	str()
@@ -458,6 +455,23 @@ func main() {
 	  fmt.Println(rect.Area())*/
 
 	//匿名组合（继承）
+
+	// 常量
+	/*const NUM int = 5
+	const NUM1 = 5*/
+	/*	const (
+			a = iota   //0
+			b          //1
+			c          //2
+			d = "ha"   //独立值，iota += 1
+			e          //"ha"   iota += 1
+			f = 100    //iota +=1
+			g          //100  iota +=1
+			h = iota   //7,恢复计数
+			i          //8
+		)
+		fmt.Println(a,b,c,d,e,f,g,h,i)*/
+
 }
 
 //因此需要先牢记这样的规则：小写字母开头的函数只在本包内可见，大写字母开头的函数才 能被其他包使用。 这个规则也适用于类型和变量的可见性。
@@ -510,7 +524,7 @@ func f() {
 //Go语言中的单引号、双引号、反引号
 //双引号用来创建可解析的字符串字面量(支持转义，但不能用来引用多行)；
 //反引号用来创建原生的字符串字面量，这些字符串可能由多行组成(不支持任何转义序列)，原生的字符串字面量多用于书写多行消息、HTML以及正则表达式。
-func str()  {
+func str() {
 	fmt.Println(`
                 How are you?
                 Fine, thank you. And you?
