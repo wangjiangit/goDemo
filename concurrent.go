@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /**
 1.并发包含以下几种主流的实现模型。
  多进程。多进程是在操作系统层面进行并发的基本模式。同时也是开销最大的模式。在
@@ -48,6 +50,11 @@ c := make(chan int, 1024) 在调用make()时将缓冲区大小作为第二个参
 即使没有读取方，写入方也可以一直往channel里写入，在缓冲区被 填完之前都不会阻塞。
 从带缓冲的channel中读取数据可以使用与常规非缓冲channel完全一致的方法，但我们也可 以使用range关键来实现更为简便的循环读取：
 for i := range c {     fmt.Println("Received:", i) }
+
+10.单向channel，只能用于发送或者接收数据。channel本身必然是同时支持读写的， 否则根本没法用。假如一个channel真的只能读，那么肯定只会是空的，
+因为你没机会往里面写数 据。同理，如果一个channel只允许写，即使写进去了，也没有丝毫意义，因为没有机会读取里面 的数据。
+所谓的单向channel概念，其实只是对channel的一种使用限制。
+
 
 */
 /*func goAdd(x, y int, ch chan int) {
@@ -206,7 +213,35 @@ func main() {
 		}
 	*/
 
+	// 单向channel
 
-	
+	var ch1 chan int       // 正常的channel，不是单向的
+	var ch2 chan<- float64 // ch2是单向的，只能用于写入float64数据
+	var ch3 <-chan int     // ch3是单向的，只能用于读取int数据
+
+	// channel 类型装换
+
+	var ch4 = make(chan int)
+	ch5 := chan<- int(ch4) // ch5是一个单向的写入的channel
+	ch6 := <-chan int(ch4) // ch6是一个单向的读取的channel
+
+	// 限制函数只能使用单向channel
+	/**
+	func Parse(ch <-chan int) {
+		for value := range ch {
+			fmt.Println("Parsing value", value)
+		}
+	}
+	 */
+
+	// 关闭channel，直接使用GO语言内置close函数,如 close(ch)
+
+	/* x,ok := <-ch  // 如果ok返回false,表示ch已经关闭
+		 if ok {
+		 	fmt.Println("closed ch")
+		 }
+	*/
+
 
 }
+
