@@ -212,16 +212,16 @@ func main() {
 	*/
 
 	// 单向channel
-/*
-	var ch1 chan int       // 正常的channel，不是单向的
-	var ch2 chan<- float64 // ch2是单向的，只能用于写入float64数据
-	var ch3 <-chan int     // ch3是单向的，只能用于读取int数据
+	/*
+		var ch1 chan int       // 正常的channel，不是单向的
+		var ch2 chan<- float64 // ch2是单向的，只能用于写入float64数据
+		var ch3 <-chan int     // ch3是单向的，只能用于读取int数据
 
-	// channel 类型装换
+		// channel 类型装换
 
-	var ch4 = make(chan int)
-	ch5 := chan<- int(ch4) // ch5是一个单向的写入的channel
-	ch6 := <-chan int(ch4) // ch6是一个单向的读取的channel*/
+		var ch4 = make(chan int)
+		ch5 := chan<- int(ch4) // ch5是一个单向的写入的channel
+		ch6 := <-chan int(ch4) // ch6是一个单向的读取的channel*/
 
 	// 限制函数只能使用单向channel
 	/**
@@ -230,20 +230,45 @@ func main() {
 			fmt.Println("Parsing value", value)
 		}
 	}
-	 */
+	*/
 
 	// 关闭channel，直接使用GO语言内置close函数,如 close(ch)
 
 	/* x,ok := <-ch  // 如果ok返回false,表示ch已经关闭
-		 if ok {
-		 	fmt.Println("closed ch")
-		 }
+	if ok {
+		fmt.Println("closed ch")
+	}
 	*/
 
 
 
-
-
-
 }
+
+/*
+//多核并行化
+
+ // runtime.GOMAXPROCS(16)  设置CUP逻辑核心数，估计要废弃了
+ // runtime.NumCPU() //获取CPU核心数
+type Vector []float64
+
+func (v Vector) DoSome(i, n int, u Vector, c chan int) {
+	for ; i < n; i++ {
+		v[i] += u.Op(v[i])
+	}
+	c <- 1
+}
+
+const NCPU = 16
+
+func (v Vector) DoAll(u Vector) {
+	c := make(chan int, NCPU)
+	for i := 0; i < NCPU; i++ {
+		go v.DoSome(i*len(v)/NCPU,(i+1)*len(v)/NCPU,u,c)
+	}
+
+	for i:=0;i<NCPU;i++ {
+		<-c
+	}
+
+}*/
 
