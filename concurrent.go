@@ -240,9 +240,26 @@ func main() {
 	}
 	*/
 
+	// 出让时间片
+	/*go say("world")
+
+	say("hello")*/
 
 
 }
+
+/*
+func say(s string) {
+
+	for i := 0; i < 2; i++ {
+
+		runtime.Gosched()
+
+		fmt.Println(s)
+
+	}
+
+}*/
 
 /*
 //多核并行化
