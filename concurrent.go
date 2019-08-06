@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"runtime"
+	"sync"
+)
+
 /**
 1.并发包含以下几种主流的实现模型。
  多进程。多进程是在操作系统层面进行并发的基本模式。同时也是开销最大的模式。在
@@ -53,6 +59,22 @@ for i := range c {     fmt.Println("Received:", i) }
 因为你没机会往里面写数 据。同理，如果一个channel只允许写，即使写进去了，也没有丝毫意义，因为没有机会读取里面 的数据。
 所谓的单向channel概念，其实只是对channel的一种使用限制。
 
+11.锁--同步锁
+4.8.1 同步锁 Go语言包中的sync包提供了两种锁类型：sync.Mutex和sync.RWMutex。Mutex是简单 的一种锁类型，同时也比较暴力，当一个goroutine获得了Mutex后，其他goroutine就只能乖乖等 到这个goroutine释放该Mutex。
+RWMutex相对友好些，是经典的单写多读模型。在读锁占用的情 况下，会阻止写，但不阻止读，也就是多个goroutine可同时获取读锁（调用RLock()方法；而写 锁（调用Lock()方法）会阻止任何其他goroutine（无论读和写）进来，
+整个锁相当于由该goroutine 独占。从RWMutex的实现看，RWMutex类型其实组合了Mutex
+对于这两种锁类型，任何一个Lock()或RLock()均需要保证对应有Unlock()或RUnlock() 调用与之对应，否则可能导致等待该锁的所有goroutine处于饥饿状态，甚至可能导致死锁。
+锁的 典型使用模式如下：
+var l sync.Mutex
+func foo() {
+	l.Lock()
+	defer l.Unlock()
+	//...
+}
+
+
+
+
 
 */
 /*func goAdd(x, y int, ch chan int) {
@@ -77,6 +99,7 @@ func Count( lock *sync.Mutex)  {
 }*/
 
 func main() {
+
 	/*	var ch chan int
 		ch = make(chan int, 1)
 		go goAdd(1, 2, ch)*/
@@ -244,7 +267,29 @@ func main() {
 	/*go say("world")
 
 	say("hello")*/
+	var gCount int
+	var mutex *sync.Mutex
+	mutex = &sync.Mutex{}
 
+	for i := 0; i < 10; i++ {
+		go func() {
+			mutex.Lock()
+			gCount++
+			mutex.Unlock()
+		}()
+	}
+
+	for {
+		runtime.Gosched()
+
+
+		fmt.Println(gCount)
+
+		if gCount >= 9{
+
+			break
+		}
+	}
 
 }
 
@@ -288,4 +333,3 @@ func (v Vector) DoAll(u Vector) {
 	}
 
 }*/
-
