@@ -1,11 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"runtime"
-	"sync"
-)
-
 /**
 1.并发包含以下几种主流的实现模型。
  多进程。多进程是在操作系统层面进行并发的基本模式。同时也是开销最大的模式。在
@@ -72,6 +66,8 @@ func foo() {
 	//...
 }
 
+12.全局唯一性操作
+对于从全局的角度只需要运行一次的代码，比如全局初始化操作，Go语言提供了一个Once 类型来保证全局的唯一性操作
 
 
 
@@ -267,7 +263,7 @@ func main() {
 	/*go say("world")
 
 	say("hello")*/
-	var gCount int
+	/*var gCount int
 	var mutex *sync.Mutex
 	mutex = &sync.Mutex{}
 
@@ -289,9 +285,54 @@ func main() {
 
 			break
 		}
+	}*/
+
+
+
+	/*names := []string{"Eric", "Harry", "Robert", "Jim", "Mark"}
+	for _, name := range names {
+		// 主协程和子协程中的代码是并发执行的，但是子协程的执行需要一定的初始化时间，
+		// 子协程在打印输出的时候，主协程已经遍历到切片中的最后几个值了（具有不确定性）
+		go func() {
+			fmt.Printf("Hello,%s!\n", name)
+		}()
 	}
 
+	//如果此行注释掉，主协程结束且子协程无任何打印输出
+	time.Sleep(time.Millisecond)
+   */
+
+	//全局唯一性操作
+	//	twoprint()
 }
+
+//全局唯一性操作
+/*var a string
+var once sync.Once
+
+func setup() {
+	a = "hello, world"
+	print(a)
+}
+
+func doprint(ch chan int) {
+	once.Do(setup)
+//	setup()
+	ch <- 1
+}
+
+func twoprint() {
+	chs := make([]chan int, 2)
+
+	for i := 0; i < 2; i++ {
+		chs[i] = make(chan int)
+		go doprint(chs[i])
+	}
+
+	for i := 0; i < 2; i++ {
+		<-chs[i]
+	}
+}*/
 
 /*
 func say(s string) {
