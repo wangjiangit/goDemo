@@ -42,6 +42,12 @@ func LookupHost(name string) (cname string, addrs []string, err error)；
 GO语言标准库内建提供了net/http包，涵盖了HTTP客户端和服务端的具体实现。
   *HTTP客户端
 	net/http包的Client类型提供如下方法。
+	func (c *Client) Get(url string) (r *Response ,err error)
+	func (c *Client) Post(url,string,bodyType string, body io.Reader)(r *Response,err error)
+    func (c *Client) PostForm(url string,data url.Values)(r *Response,err error)
+	func (c *Client) Head(url string)(r *Response,err error)
+	func (c *Client) Do(req *Request)(resp *Response,err error)
+
 
 
 
@@ -115,11 +121,71 @@ func main() {
 	os.Exit(0)*/
 	//-------------------------SOCKET 编程(END)---------------------------------------
 
-
 	//-------------------------HTTP 编程(START)------------------------------------------
+	/*resp, err := http.Get("http://5izan.com")
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	io.Copy(os.Stdout,resp.Body)*/
+
+	// http.Post("http://example.com/upload", "image/jpeg", &imageDataBuf)
+	/*
+		resp, err := http.Post("http://example.com/upload", "image/jpeg", &imageDataBuf)
+		if err != nil { // 处理错误           return }
+
+			if resp.StatusCode != http.StatusOK {
+				// 处理错误
+				return
+			}
+
+			if resp.StatusCode != http.StatusOK {
+				// 处理错误
+				return
+			}*/
+
+/*	resp, err := http.PostForm("http://example.com/posts", url.Values{"title": {"article title"}, "content": {"article body"}})
+	if err != nil {
+		// 处理错误
+		return
+	}*/
+
+
+  // resp,err :=http.Head("http://example.com/")
+
+
+  //在多数情况下，http.Get()和http.PostForm() 就可以满足需求，但是如果我们发起的 HTTP请求需要更多的定制信息
+
+ /*  req,err :=http.NewRequest("GET","http://example.com",nil)
+  req.Header.Add("User-Agent","Gobook custome user-agent")
+
+  client :=&http.Client{ }
+  resp, err := client.Do(req)*/
+
+ // HTTP 服务端技术
+/*	http.Handle("/foo", fooHandler)
+	http.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path)) })
+	log.Fatal(http.ListenAndServeTLS(":10443", "cert.pem", "key.pem", nil))
+	//或者是：
+	ss := &http.Server{
+		Addr:           ":10443",
+		Handler:        myHandler,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(ss.ListenAndServeTLS("cert.pem", "key.pem"))*/
+
+
+
+
+
+
+
+
 
 	//-------------------------HTTP 编程(END)--------------------------------------------
-
 
 }
 func checkSum(msg []byte) uint16 {
